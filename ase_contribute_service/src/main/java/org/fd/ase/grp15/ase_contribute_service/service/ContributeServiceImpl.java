@@ -50,9 +50,6 @@ public class ContributeServiceImpl {
         if (conferenceInfo.getSubmissionDeadline().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Submission deadline has passed");
         }
-        if(iUserConferenceRoleService.checkRoleOfUserInConference(in.getUsername(),in.getConferenceName(),ConferenceRole.AUTHOR)){
-            throw new RuntimeException("You have submitted!");
-        }
         iUserConferenceRoleService.addRoleToUserInConference(in.getUsername(), in.getConferenceName(), ConferenceRole.AUTHOR);
         Contribution contribution = new Contribution(in.getUsername(),
                 in.getRealName(), in.getConferenceName(), in.getTitle(),

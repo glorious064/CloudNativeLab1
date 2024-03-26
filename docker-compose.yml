@@ -1,0 +1,95 @@
+version: '3'
+
+networks:
+  ase-network:
+    driver: bridge
+    name: ase-network
+
+volumes:
+  file-data:
+
+services:
+  ase-contribute-service:
+    image: zouyi0925/ase_contribute_service:latest
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - NACOS_PORT=8848
+      - MYSQL_HOST=host.docker.internal
+      - MYSQL_PORT=13306
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    container_name: ase-contribute-service
+
+  ase-conference-service:
+    image: huajuan6848/ase_conference_service:yys-lab1
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - NACOS_PORT=8848
+      - MYSQL_HOST=host.docker.internal
+      - MYSQL_PORT=13306
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    container_name: ase-conference-service
+
+  ase-notification-service:
+    image: huajuan6848/ase_notification_service:yys-lab1
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - MYSQL_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    container_name: ase-notification-service
+
+  ase-user-service:
+    image: huajuan6848/ase_user_service:yys-lab1
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - MYSQL_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    container_name: ase-user-service
+
+  ase-file-service:
+    image: huajuan6848/ase_file_service:yys-lab1
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - MYSQL_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    container_name: ase-file-service
+    volumes:
+      - file-data:/root/upload
+
+  ase-gateway:
+    image: huajuan6848/ase_gateway:yys-lab1
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - MYSQL_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    container_name: ase-gateway
+
+  ase-frontend:
+    image: huajuan6848/ase_frontend:yys-lab1
+    environment:
+      - env=prod
+      - NACOS_HOST=host.docker.internal
+      - MYSQL_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+    networks:
+      - ase-network
+    ports:
+      - "80:80"
+    container_name: ase-frontend
