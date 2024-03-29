@@ -10,7 +10,7 @@ volumes:
 
 services:
   ase-contribute-service:
-    image: zouyi0925/ase_contribute_service:latest
+    image: zouyi0925/ase_contribute_service:yys-lab1
     environment:
       - env=prod
       - NACOS_HOST=host.docker.internal
@@ -20,6 +20,8 @@ services:
       - REDIS_HOST=host.docker.internal
     networks:
       - ase-network
+    depends_on:
+      - ase-file-service
     container_name: ase-contribute-service
 
   ase-conference-service:

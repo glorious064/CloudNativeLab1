@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,10 +53,11 @@ public class ContributeServiceImpl {
         if (conferenceInfo.getSubmissionDeadline().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Submission deadline has passed");
         }
+
         iUserConferenceRoleService.addRoleToUserInConference(in.getUsername(), in.getConferenceName(), ConferenceRole.AUTHOR);
         Contribution contribution = new Contribution(in.getUsername(),
                 in.getRealName(), in.getConferenceName(), in.getTitle(),
-                in.getAbstractContent(), in.getEssayId(), sdf.format(new Date()));
+                in.getAbstractContent(), in.getEssayId(),  sdf.format(new Date()));
         contributeRepository.save(contribution);
 
         return null;
