@@ -63,46 +63,28 @@ public class ContributeServiceImpl {
         return null;
     }
 
+
     public List<ListContribution> listContributionsByUsername(String author) {
         //Todo
-        List<Contribution> contributions = contributeRepository.findAllByAuthor(author);
-        List<ListContribution> listContributions = new ArrayList<>();
-
-        for (Contribution contribution : contributions) {
-            ListContribution listContribution = new ListContribution(
-                    contribution.getId(),
-                    contribution.getConferenceName(),
-                    contribution.getContributeTime(),
-                    contribution.getTitle(),
-                    contribution.getStatus()
-            );
-            listContributions.add(listContribution);
-        }
-
-        return listContributions;
+        return contributeRepository.findAllByAuthor(author).stream()
+                .map(contribution -> new ListContribution(contribution.getId(),
+                        contribution.getConferenceName(), contribution.getContributeTime(),
+                        contribution.getTitle(), contribution.getStatus()))
+                .toList();
     }
 
     public List<ListContribution> listContibutionsByConferenceName(String name) {
         // TODO
-        List<Contribution> contributions = contributeRepository.findAllByConferenceName(name);
-        List<ListContribution> listContributions = new ArrayList<>();
-
-        for (Contribution contribution : contributions) {
-            ListContribution listContribution = new ListContribution(
-                    contribution.getId(),
-                    contribution.getConferenceName(),
-                    contribution.getContributeTime(),
-                    contribution.getTitle(),
-                    contribution.getStatus()
-            );
-            listContributions.add(listContribution);
-        }
-
-        return listContributions;
+        return contributeRepository.findAllByConferenceName(name).stream()
+                .map(contribution -> new ListContribution(contribution.getId(),
+                        contribution.getConferenceName(), contribution.getContributeTime(),
+                        contribution.getTitle(), contribution.getStatus()))
+                .toList();
     }
 
     public Contribution detailById(String idStr) {
         // TODO
-        return contributeRepository.findContributionById(Long.parseLong(idStr));
+        long id = Long.parseLong(idStr);
+        return contributeRepository.findContributionById(id);
     }
 }
